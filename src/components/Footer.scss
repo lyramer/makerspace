@@ -1,0 +1,39 @@
+.FooterComponent {
+  &__logo {
+    width: 130px;
+  }
+
+  &__description {
+    margin-top: 1.2rem;
+  }
+
+  &__copyright {
+    margin-top: 1rem;
+  }
+
+  &__menus {
+    ul {
+      margin-left: -0.75rem;
+    }
+
+    li {
+      img {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 0.6rem;
+      }
+
+      a {
+        display: block;
+        padding: 0.5rem 0.75rem;
+        line-height: 1.25;
+        color: #4A4A4A;
+        &:hover {
+          text-decoration: none;
+          background-color: rgba(0, 0, 0, 0.05);
+          border-radius: 3px;
+        }
+      }
+    }
+  }
+}
