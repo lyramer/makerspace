@@ -11,17 +11,17 @@ function IndexPage(props) {
     <>
       <HeroSection
         bg="primary"
-        textColor="light"
+        textColor="dark"
         size="lg"
         bgImage=""
         bgImageOpacity={1}
-        title="Your landing page title here"
-        subtitle="This landing page is perfect for showing off your awesome product and driving people to sign up for a paid plan."
-        buttonText="Get Started"
-        buttonColor="light"
-        buttonPath="/pricing"
+        title="Integrated Membership Billing Sign-Up"
+        subtitle="As we move from using Wild Apricot our own system, we need to ask you to re-enter your billing information so we can continue to bill for your membership. If you do not, your membership will lapse and your card will be cancelled."
+        buttonText="Log in using Discourse"
+        buttonColor="secondary"
+        buttonPath="/auth/signin"
       />
-      <FeaturesSection
+      {/* <FeaturesSection
         bg="white"
         textColor="dark"
         size="md"
@@ -72,7 +72,7 @@ function IndexPage(props) {
         buttonText="Get Started"
         buttonColor="light"
         buttonPath="/pricing"
-      />
+      /> */}
     </>
   );
 }

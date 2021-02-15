@@ -121,7 +121,7 @@ function AuthForm(props) {
       )}
 
       <Button
-        variant="primary"
+        variant="secondary"
         block={true}
         size="lg"
         type="submit"

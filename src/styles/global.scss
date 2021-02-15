@@ -1,15 +1,26 @@
 @charset "utf-8";
 
 // COLORS
+/* 
+  liquid blue: 87cfe9
+  electro green: 91c979
+  acid lime: dce22f
+  stage fog: d4dde4
+  gray silhouette: 5e6268
+  cold mist: eff8fe
+  nightclubbing: 102448
+  trance blue: 41bcdb
+  acid lemon: ebeb73
+*/
 $theme-colors: (
-  "primary": #0074d9,
-  "secondary": #6c757d,
-  "success": #28a745,
+  "primary": #d4dde4,
+  "secondary": #87cfe9,
+  "success": #91c979,
   "danger": #ff4136,
-  "warning": #ffc107,
-  "info": #17a2b8,
-  "light": #f8f9fa,
-  "dark": #343a40,
+  "warning": #dce22f,
+  "info": #87cfe9,
+  "light": #d4dde4,
+  "dark": #5e6268,
   "white": #ffffff,
   "transparent": transparent,
 );

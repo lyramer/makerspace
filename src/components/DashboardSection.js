@@ -48,16 +48,19 @@ function DashboardSection(props) {
         <Row className="align-items-center mt-5">
           <Col lg={6}>
             <p>
-              This would be a good place to build your custom product features
-              after exporting your codebase.
+              In order to transition from a website hosted by Wild Apricot 
+              to our own system, we will need all members to re-enter a 
+              subscription billing agreement with Stripe through our new 
+              website.
             </p>
             <p>
-              You can grab the current user, query your database, render custom
-              components, and anything else you'd like.
+              This will not come at any additional cost to you - 
+              your old subscription billing agreement with 
+              Stripe will be cancelled upon re-entering a new 
+              agreement. 
             </p>
             <p>
-              Divjoy sets you up with everything you need so that you can get
-              right to work on building your web app.
+              
             </p>
           </Col>
           <Col className="mt-5 mt-lg-0">
@@ -75,12 +78,12 @@ function DashboardSection(props) {
             maxWidth: "460px",
           }}
         >
-          <small>
+          {/* <small>
             Some helpful debug info
             <span className="ml-1" role="img" aria-label="bug">
               🐛
             </span>
-          </small>
+          </small> */}
           <ListGroup className="mt-2">
             <ListGroup.Item>
               Logged in as <strong>{auth.user.email}</strong>

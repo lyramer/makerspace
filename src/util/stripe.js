@@ -12,6 +12,9 @@ loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY, {
 });
 
 export async function redirectToCheckout(planId) {
+
+  console.log("planID is:", planId)
+  
   // Create a checkout session
   const session = await apiRequest("stripe-create-checkout-session", "POST", {
     priceId: getStripePriceId(planId),

@@ -1,3 +1,5 @@
+const dbQuery = require("./db/db-query.js");
+
 // Connect to your database of choice here
 // For now all methods just return some fake data
 
@@ -8,13 +10,14 @@ const fakeUserData = {
 };
 
 // Update an existing user
-function updateUser(uid, data) {
+async function updateUser(uid, data) {
   // Update user in database here
   const user = {
     ...fakeUserData,
     ...data,
     uid: uid,
   };
+  await dbQuery(uid)
 
   return user;
 }
@@ -26,6 +29,18 @@ function getUser(uid) {
     ...fakeUserData,
     uid: uid,
   };
+
+  return user;
+}
+
+
+// Get user by uid
+function getUserByEmail(user) {
+  // Fetch user from database here
+  const user = {
+    ...user,
+  };
+  console.log(user)
 
   return user;
 }
@@ -58,4 +73,5 @@ module.exports = {
   getUser,
   getUserByCustomerId,
   updateUserByCustomerId,
+  getUserByEmail,
 };

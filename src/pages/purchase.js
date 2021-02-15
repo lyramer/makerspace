@@ -18,6 +18,7 @@ function PurchasePage(props) {
     } else {
       // Otherwise go to checkout
       redirectToCheckout(router.query.plan).catch((error) => {
+        console.log("redirectToCheckout error:", error);
         setFormAlert({
           type: "error",
           message: error.message,

@@ -7,11 +7,15 @@ import React, {
 } from "react";
 import queryString from "query-string";
 import fakeAuth from "fake-auth";
-import { useUser, createUser, updateUser } from "./db";
+import { useUser, createUser, updateUser, getUserByEmail } from "./db";
 import { history } from "./router";
 import PageLoader from "./../components/PageLoader";
 import { getFriendlyPlanId } from "./prices";
 import analytics from "./analytics";
+
+const dotenv = require("dotenv");
+dotenv.config();
+
 
 // Whether to merge extra user data from database into auth.user
 const MERGE_DB_USER = true;
@@ -49,7 +53,7 @@ function useAuthProvider() {
     // Create the user in the database
     // fake-auth doesn't indicate if they are new so we attempt to create user every time
     await createUser(user.uid, { email: user.email });
-
+    //await getUserByEmail(user)
     // Update user in state
     setUser(user);
     return user;
@@ -62,6 +66,7 @@ function useAuthProvider() {
   };
 
   const signin = (email, password) => {
+    
     return fakeAuth
       .signin(email, password)
       .then((response) => handleAuth(response.user));

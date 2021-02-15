@@ -26,7 +26,7 @@ function App(props) {
             bg="primary"
             variant="dark"
             expand="md"
-            logo="https://uploads.divjoy.com/logo-white.svg"
+            logo="https://makerspace.ca/resources/Pictures/logo-wide-text[1].svg" //FIXME
           />
 
           <Switch>
@@ -60,8 +60,8 @@ function App(props) {
             bgImage=""
             bgImageOpacity={1}
             description="A short description of what you do here"
-            copyright="© 2020 Company"
-            logo="https://uploads.divjoy.com/logo.svg"
+            copyright="© 2020 Victoria Makerspace"
+            logo="https://makerspace.ca/resources/Pictures/logo-wide-text[1].svg"
           />
         </>
       </Router>

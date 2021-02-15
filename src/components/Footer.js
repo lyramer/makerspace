@@ -39,7 +39,8 @@ function Footer(props) {
               <p className="FooterComponent__copyright">{props.copyright}</p>
             )}
           </Col>
-          <Col xs={12} md={8} lg={{ span: 6, offset: 2 }}>
+          {/* FIXME: Col is hidden until after first protoype is done */}
+          <Col xs={12} md={8} lg={{ span: 6, offset: 2 }} style={{display : "none"}} > 
             <div className="FooterComponent__menus">
               <Row>
                 <Col xs={12} md={4} className="mt-3 mt-md-0">

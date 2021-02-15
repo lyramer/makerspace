@@ -1,12 +1,14 @@
 // Map our custom plan IDs ("basic", "premium", etc) to Stripe price IDs
 const stripePriceIds = {
-  starter: process.env.REACT_APP_STRIPE_PRICE_STARTER,
-  pro: process.env.REACT_APP_STRIPE_PRICE_PRO,
-  business: process.env.REACT_APP_STRIPE_PRICE_BUSINESS,
+  student: process.env.REACT_APP_STRIPE_PRICE_STUDENT,
+  regular: process.env.REACT_APP_STRIPE_PRICE_REGULAR,
+  gratis: process.env.REACT_APP_STRIPE_PRICE_GRATIS,
 };
 
 // Get Stripe priceId
 export function getStripePriceId(planId) {
+  console.log("plANS ARE:", stripePriceIds)
+  console.log(process.env)
   return stripePriceIds[planId];
 }
 

@@ -9,7 +9,7 @@ function AuthSection(props) {
   const allTypeValues = {
     signin: {
       // Top title
-      title: "Welcome back",
+      title: "Remember to sign in using your discord (talk forum) account",
       // Submit button text
       buttonText: "Sign in",
       // Link text to other auth types

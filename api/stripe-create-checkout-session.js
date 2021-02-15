@@ -9,6 +9,8 @@ const router = express.Router();
 
 router.post("/", requireAuth, async (req, res) => {
   const body = req.body;
+  console.log(body);
+  console.log("test");
   const user = req.user;
 
   if (!body.priceId) {

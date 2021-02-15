@@ -10,7 +10,7 @@ function DashboardPage(props) {
       size="md"
       bgImage=""
       bgImageOpacity={1}
-      title="Dashboard"
+      title="Updating Your Billing Agreement"
       subtitle=""
     />
   );

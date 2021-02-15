@@ -15,9 +15,9 @@ function PricingSection(props) {
 
   const items = [
     {
-      id: "starter",
-      name: "Starter",
-      price: "10",
+      id: "student",
+      name: "Student",
+      price: "35",
       perks: [
         "Lorem ipsum dolor sit amet",
         "Consectetur adipiscing elit",
@@ -25,9 +25,9 @@ function PricingSection(props) {
       ],
     },
     {
-      id: "pro",
-      name: "Pro",
-      price: "20",
+      id: "regular",
+      name: "Regular",
+      price: "50",
       perks: [
         "Lorem ipsum dolor sit amet",
         "Consectetur adipiscing elit",
@@ -37,9 +37,9 @@ function PricingSection(props) {
       ],
     },
     {
-      id: "business",
-      name: "Business",
-      price: "50",
+      id: "gratis",
+      name: "Gratis",
+      price: "0",
       perks: [
         "Lorem ipsum dolor sit amet",
         "Consectetur adipiscing elit",
