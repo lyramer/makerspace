@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 import "./../styles/global.scss";
 import NavbarCustom from "./../components/NavbarCustom";
 import IndexPage from "./index";
@@ -30,6 +31,16 @@ function App(props) {
           />
 
           <Switch>
+
+            <Route  
+              exact path="/auth/login/discourse" 
+              component={() => { 
+                window.location.replace('/api/auth/discourse_sso'); 
+                return null;
+              }}
+            />
+
+
             <Route exact path="/" component={IndexPage} />
 
             <Route exact path="/about" component={AboutPage} />

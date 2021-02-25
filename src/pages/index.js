@@ -19,7 +19,7 @@ function IndexPage(props) {
         subtitle="As we move from using Wild Apricot our own system, we need to ask you to re-enter your billing information so we can continue to bill for your membership. If you do not, your membership will lapse and your card will be cancelled."
         buttonText="Log in using Discourse"
         buttonColor="secondary"
-        buttonPath="/auth/signin"
+        buttonPath="/auth/login/discourse"
       />
       {/* <FeaturesSection
         bg="white"

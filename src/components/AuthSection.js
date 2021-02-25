@@ -7,13 +7,13 @@ import Auth from "./Auth";
 function AuthSection(props) {
   // Values for each auth type
   const allTypeValues = {
-    signin: {
+    login: {
       // Top title
       title: "Remember to sign in using your discord (talk forum) account",
       // Submit button text
       buttonText: "Sign in",
       // Link text to other auth types
-      linkTextSignup: "Create an account",
+      // linkTextSignup: "Create an account",
       linkTextForgotpass: "Forgot Password?",
     },
     signup: {

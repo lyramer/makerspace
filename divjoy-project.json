@@ -1486,7 +1486,7 @@
           "type": "instance",
           "componentId": 8572886,
           "id": 3230188,
-          "attributes": "{\n  // Background and text color\n  // primary, secondary, success, danger,\n  // warning, info, white, light, dark\n  bg: \"white\",\n  textColor: \"dark\",\n  // sm, md, lg\n  size: \"md\",\n  // Background image URL\n  bgImage: \"\",\n  // Background image opacity (0-1)\n  bgImageOpacity: 1,\n  // signin, signup, forgotpass, changepass\n  type: router.query.type,\n  // Enable other auth providers\n  // google, facebook, twitter, github\n  providers: ['google', 'facebook', 'twitter'],\n  // Where to take user after auth\n  afterAuthPath: router.query.next || \"/dashboard\"\n  // Scroll down to \"Code\" section\n  // to customize further.\n}",
+          "attributes": "{\n  // Background and text color\n  // primary, secondary, success, danger,\n  // warning, info, white, light, dark\n  bg: \"white\",\n  textColor: \"dark\",\n  // sm, md, lg\n  size: \"md\",\n  // Background image URL\n  bgImage: \"\",\n  // Background image opacity (0-1)\n  bgImageOpacity: 1,\n  // login, signup, forgotpass, changepass\n  type: router.query.type,\n  // Enable other auth providers\n  // google, facebook, twitter, github\n  providers: ['google', 'facebook', 'twitter'],\n  // Where to take user after auth\n  afterAuthPath: router.query.next || \"/dashboard\"\n  // Scroll down to \"Code\" section\n  // to customize further.\n}",
           "isVisible": true,
           "children": [],
           "propsArray": [
@@ -2193,12 +2193,12 @@
                                       "children": []
                                     }
                                   ],
-                                  "attributes": "{\n\thref: \"/auth/signin\",\n  active: false\n}",
+                                  "attributes": "{\n\thref: \"/auth/login\",\n  active: false\n}",
                                   "isVisible": true,
                                   "propsArray": [
                                     {
                                       "key": "href",
-                                      "value": "/auth/signin",
+                                      "value": "/auth/login",
                                       "isString": true,
                                       "type": "StringLiteral"
                                     },
@@ -9190,7 +9190,7 @@
       "type": "component",
       "id": 8490567,
       "name": "ReauthModal",
-      "code": "\tconst auth = useAuth();\n\tconst [pending, setPending] = useState(false);\n  const [formAlert, setFormAlert] = useState(null);\n\n  const { register, handleSubmit, errors } = useForm();\n\n  const onSubmit = data => {\n    const { pass } = data;\n    setPending(true);\n    \n    auth\n      .signin(auth.user.email, pass)\n      .then(() => {\n        // Call failed action that originally required reauth\n        props.callback();\n        // Let parent know we're done so they can hide modal\n        props.onDone();\n    \t})\n      .catch(error => {\n        // Hide pending indicator\n      \tsetPending(false);\n      \t// Show error alert message\n        setFormAlert({\n          type: \"error\",\n          message: error.message\n        });\n      });\n  };\n",
+      "code": "\tconst auth = useAuth();\n\tconst [pending, setPending] = useState(false);\n  const [formAlert, setFormAlert] = useState(null);\n\n  const { register, handleSubmit, errors } = useForm();\n\n  const onSubmit = data => {\n    const { pass } = data;\n    setPending(true);\n    \n    auth\n      .login(auth.user.email, pass)\n      .then(() => {\n        // Call failed action that originally required reauth\n        props.callback();\n        // Let parent know we're done so they can hide modal\n        props.onDone();\n    \t})\n      .catch(error => {\n        // Hide pending indicator\n      \tsetPending(false);\n      \t// Show error alert message\n        setFormAlert({\n          type: \"error\",\n          message: error.message\n        });\n      });\n  };\n",
       "children": [
         {
           "type": "instance",
@@ -9497,13 +9497,13 @@
                       "type": "instance",
                       "componentId": 9452872,
                       "id": 9140471,
-                      "attributes": "{\n\ttype: \"signin\",\n  buttonText: \"Sign in\",\n  providers: [props.provider],\n  showLastUsed: false,\n  onAuth: () => {\n    props.callback();\n   \tprops.onDone();\n  },\n  onError: (message) => {\n    setFormAlert({\n      type: \"error\",\n      message: message\n    })\n  }\n}",
+                      "attributes": "{\n\ttype: \"login\",\n  buttonText: \"Sign in\",\n  providers: [props.provider],\n  showLastUsed: false,\n  onAuth: () => {\n    props.callback();\n   \tprops.onDone();\n  },\n  onError: (message) => {\n    setFormAlert({\n      type: \"error\",\n      message: message\n    })\n  }\n}",
                       "isVisible": true,
                       "children": [],
                       "propsArray": [
                         {
                           "key": "type",
-                          "value": "signin",
+                          "value": "login",
                           "isString": true,
                           "type": "StringLiteral"
                         },
@@ -9928,7 +9928,7 @@
       "type": "component",
       "id": 4743961,
       "name": "AuthForm",
-      "code": "\tconst [pending, setPending] = useState(false);\n\tconst { handleSubmit, register, errors, getValues } = useForm();\n\n  const submitHandlersByType = {\n    signin: ({ email, pass }) => {\n      return auth.signin(email, pass)\n        .then(user => {\n        \t// Call auth complete handler\n        \tprops.onAuth(user);\n      \t});\n    },\n    signup: ({ email, pass }) => {\n      return auth.signup(email, pass)\n        .then(user => {\n        \t// Call auth complete handler\n        \tprops.onAuth(user);\n      \t});\n    },\n    forgotpass: ({ email }) => {\n      return auth.sendPasswordResetEmail(email)\n      \t.then(() => {\n        \tsetPending(false);\n        \t// Show success alert message\n       \t\tprops.onFormAlert({\n          \ttype: \"success\",\n          \tmessage: \"Password reset email sent\"\n        \t});\n       });\n    },\n    changepass: ({ pass }) => {\n      return auth.confirmPasswordReset(pass)\n        .then(() => {\n        \tsetPending(false);\n        \t// Show success alert message\n          props.onFormAlert({\n            type: \"success\",\n            message: \"Your password has been changed\"\n          });\n        });\n    }\n  }\n  \n  // Handle form submission\n  const onSubmit = ({ email, pass }) => {\n    // Show pending indicator\n    setPending(true);\n    \n    // Call submit handler for auth type\n    submitHandlersByType[props.type]({\n      email,\n      pass\n    }).catch(error => {\n      setPending(false);\n      // Show error alert message\n      props.onFormAlert({\n        type: \"error\",\n        message: error.message\n      });\n    });\n  }\n  ",
+      "code": "\tconst [pending, setPending] = useState(false);\n\tconst { handleSubmit, register, errors, getValues } = useForm();\n\n  const submitHandlersByType = {\n    login: ({ email, pass }) => {\n      return auth.login(email, pass)\n        .then(user => {\n        \t// Call auth complete handler\n        \tprops.onAuth(user);\n      \t});\n    },\n    signup: ({ email, pass }) => {\n      return auth.signup(email, pass)\n        .then(user => {\n        \t// Call auth complete handler\n        \tprops.onAuth(user);\n      \t});\n    },\n    forgotpass: ({ email }) => {\n      return auth.sendPasswordResetEmail(email)\n      \t.then(() => {\n        \tsetPending(false);\n        \t// Show success alert message\n       \t\tprops.onFormAlert({\n          \ttype: \"success\",\n          \tmessage: \"Password reset email sent\"\n        \t});\n       });\n    },\n    changepass: ({ pass }) => {\n      return auth.confirmPasswordReset(pass)\n        .then(() => {\n        \tsetPending(false);\n        \t// Show success alert message\n          props.onFormAlert({\n            type: \"success\",\n            message: \"Your password has been changed\"\n          });\n        });\n    }\n  }\n  \n  // Handle form submission\n  const onSubmit = ({ email, pass }) => {\n    // Show pending indicator\n    setPending(true);\n    \n    // Call submit handler for auth type\n    submitHandlersByType[props.type]({\n      email,\n      pass\n    }).catch(error => {\n      setPending(false);\n      // Show error alert message\n      props.onFormAlert({\n        type: \"error\",\n        message: error.message\n      });\n    });\n  }\n  ",
       "children": [
         {
           "type": "instance",
@@ -9938,7 +9938,7 @@
           "children": [
             {
               "type": "if",
-              "js": "['signup', 'signin', 'forgotpass'].includes(props.type)",
+              "js": "['signup', 'login', 'forgotpass'].includes(props.type)",
               "id": 9372840,
               "children": [
                 {
@@ -10010,7 +10010,7 @@
             },
             {
               "type": "if",
-              "js": "['signup', 'signin', 'changepass'].includes(props.type)",
+              "js": "['signup', 'login', 'changepass'].includes(props.type)",
               "id": 4777862,
               "children": [
                 {
@@ -10358,7 +10358,7 @@
                       "children": []
                     }
                   ],
-                  "attributes": "{\n  href: '/auth/signin'\n}",
+                  "attributes": "{\n  href: '/auth/login'\n}",
                   "id": 7046653,
                   "isVisible": true,
                   "image": "",
@@ -10369,7 +10369,7 @@
                   "propsArray": [
                     {
                       "key": "href",
-                      "value": "/auth/signin",
+                      "value": "/auth/login",
                       "isString": true,
                       "type": "StringLiteral"
                     }
@@ -10381,7 +10381,7 @@
             },
             {
               "type": "if",
-              "js": "props.type === 'signin'",
+              "js": "props.type === 'login'",
               "children": [
                 {
                   "type": "element",
@@ -10538,7 +10538,7 @@
         },
         {
           "type": "if",
-          "js": "['signup', 'signin'].includes(props.type)",
+          "js": "['signup', 'login'].includes(props.type)",
           "id": 2586594,
           "children": [
             {
@@ -10804,7 +10804,7 @@
           ]
         }
       ],
-      "code": "\t// Values for each auth type\n\tconst allTypeValues = {\n    signin: {\n      // Top title\n      title: \"Welcome back\",\n      // Submit button text\n      buttonText: \"Sign in\",\n      // Link text to other auth types\n      linkTextSignup: \"Create an account\",\n      linkTextForgotpass: \"Forgot Password?\"\n    },\n    signup: {\n      title: \"Get yourself an account\",\n      buttonText: \"Sign up\",\n      linkTextSignin: \"Sign in\"\n    },\n    forgotpass: {\n      title: \"Get a new password\",\n      buttonText: \"Reset password\"\n    },\n    changepass: {\n      title: \"Choose a new password\",\n      buttonText: \"Change password\"\n    },\n  };\n\t\n\t// Ensure we have a valid auth type\n\tconst currentType = allTypeValues[props.type] \n  \t\t\t\t\t\t\t\t\t\t\t? props.type \n  \t\t\t\t\t\t\t\t\t\t\t: 'signup';\n\n\t// Get values for current auth type\n\tconst typeValues = allTypeValues[currentType];\n  ",
+      "code": "\t// Values for each auth type\n\tconst allTypeValues = {\n    login: {\n      // Top title\n      title: \"Welcome back\",\n      // Submit button text\n      buttonText: \"Sign in\",\n      // Link text to other auth types\n      linkTextSignup: \"Create an account\",\n      linkTextForgotpass: \"Forgot Password?\"\n    },\n    signup: {\n      title: \"Get yourself an account\",\n      buttonText: \"Sign up\",\n      linkTextSignin: \"Sign in\"\n    },\n    forgotpass: {\n      title: \"Get a new password\",\n      buttonText: \"Reset password\"\n    },\n    changepass: {\n      title: \"Choose a new password\",\n      buttonText: \"Change password\"\n    },\n  };\n\t\n\t// Ensure we have a valid auth type\n\tconst currentType = allTypeValues[props.type] \n  \t\t\t\t\t\t\t\t\t\t\t? props.type \n  \t\t\t\t\t\t\t\t\t\t\t: 'signup';\n\n\t// Get values for current auth type\n\tconst typeValues = allTypeValues[currentType];\n  ",
       "tags": [
         "Authentication"
       ],

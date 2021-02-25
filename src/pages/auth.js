@@ -4,6 +4,7 @@ import { useRouter } from "./../util/router.js";
 
 function AuthPage(props) {
   const router = useRouter();
+  // Fetch the list on first mount
 
   return (
     <AuthSection

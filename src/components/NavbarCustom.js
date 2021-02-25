@@ -55,7 +55,7 @@ function NavbarCustom(props) {
 
             {!auth.user && (
               <Nav.Item>
-                <LinkContainer to="/auth/signin">
+                <LinkContainer to="/auth/login">
                   <Nav.Link active={false}>Sign in</Nav.Link>
                 </LinkContainer>
               </Nav.Item>

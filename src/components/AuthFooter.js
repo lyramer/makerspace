@@ -8,11 +8,11 @@ function AuthFooter(props) {
       {props.type === "signup" && (
         <>
           Have an account already?
-          <Link to="/auth/signin">{props.typeValues.linkTextSignin}</Link>
+          <Link to="/auth/login">{props.typeValues.linkTextSignin}</Link>
         </>
       )}
 
-      {props.type === "signin" && (
+      {props.type === "login" && (
         <>
         {/* FIXME : Option to sign up temporarily removed for billing transition */}
           {/* <Link to="/auth/signup">{props.typeValues.linkTextSignup}</Link> */}

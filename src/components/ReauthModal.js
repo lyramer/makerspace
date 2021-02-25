@@ -21,7 +21,7 @@ function ReauthModal(props) {
     setPending(true);
 
     auth
-      .signin(auth.user.email, pass)
+      .login(auth.user.email, pass)
       .then(() => {
         // Call failed action that originally required reauth
         props.callback();
@@ -89,7 +89,7 @@ function ReauthModal(props) {
 
         {props.provider !== "password" && (
           <AuthSocial
-            type="signin"
+            type="login"
             buttonText="Sign in"
             providers={[props.provider]}
             showLastUsed={false}

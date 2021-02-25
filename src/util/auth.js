@@ -13,9 +13,6 @@ import PageLoader from "./../components/PageLoader";
 import { getFriendlyPlanId } from "./prices";
 import analytics from "./analytics";
 
-const dotenv = require("dotenv");
-dotenv.config();
-
 
 // Whether to merge extra user data from database into auth.user
 const MERGE_DB_USER = true;
@@ -65,7 +62,7 @@ function useAuthProvider() {
       .then((response) => handleAuth(response.user));
   };
 
-  const signin = (email, password) => {
+  const login = (email, password) => {
     
     return fakeAuth
       .signin(email, password)
@@ -149,7 +146,7 @@ function useAuthProvider() {
   return {
     user: finalUser,
     signup,
-    signin,
+    login,
     signinWithProvider,
     signout,
     sendPasswordResetEmail,
@@ -232,7 +229,7 @@ export const requireAuth = (Component) => {
     useEffect(() => {
       // Redirect if not signed in
       if (auth.user === false) {
-        history.replace("/auth/signin");
+        history.replace("auth/login");
       }
     }, [auth]);
 

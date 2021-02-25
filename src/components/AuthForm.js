@@ -13,8 +13,9 @@ function AuthForm(props) {
   const { handleSubmit, register, errors, getValues } = useForm();
 
   const submitHandlersByType = {
-    signin: ({ email, pass }) => {
-      return auth.signin(email, pass).then((user) => {
+    
+    login: ({ email, pass }) => {
+      return auth.login(email, pass).then((user) => {
         // Call auth complete handler
         props.onAuth(user);
       });
@@ -68,7 +69,7 @@ function AuthForm(props) {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      {["signup", "signin", "forgotpass"].includes(props.type) && (
+      {["signup", "login", "forgotpass"].includes(props.type) && (
         <Form.Group controlId="formEmail">
           <FormField
             size="lg"
@@ -83,7 +84,7 @@ function AuthForm(props) {
         </Form.Group>
       )}
 
-      {["signup", "signin", "changepass"].includes(props.type) && (
+      {["signup", "login", "changepass"].includes(props.type) && (
         <Form.Group controlId="formPassword">
           <FormField
             size="lg"
