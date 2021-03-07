@@ -118,21 +118,21 @@ Strategy.prototype.authenticate = function(req, options) {
   if(!options) options = {};
 
 
-  console.log("*************************************************");
-  console.log("Strategy:", this);
-  console.log(req.originalUrl);
-  console.log(route_callback);
-  console.log(options)
-  console.log("*************************************************");
+  // console.log("*************************************************");
+  // console.log("Strategy:", this);
+  // console.log(req.originalUrl);
+  // console.log(route_callback);
+  // console.log(options)
+  // console.log("*************************************************");
 
 
   function _verify_discourse_sso(req,res) {
-    console.log("VERIFY -------------------------------------------------",req.originalUrl);
+    //console.log("VERIFY -------------------------------------------------",req.originalUrl);
     //console.log("req:",req);
-    console.log("-------------------------------------------------");
+    //console.log("-------------------------------------------------");
 
     var ret = Provider.validateAuth(req.originalUrl);
-    console.log(ret)
+    //console.log(ret)
     var profile = {...ret};
     // TODO: commented-out version is probably safer but I'm gonna grab all of ret for now...
     //var profile = (({ admin, moderator, email, avatar_url, name, username }) => ({ admin, moderator, email, avatar_url, name, username }))(ret);
@@ -160,8 +160,8 @@ Strategy.prototype.authenticate = function(req, options) {
     var referal_url = "http://" + process.env.ORIGIN_URL + process.env.RETURN_URL;   
     var argz = arguments;
     var auth_req = Provider.generateAuthRequest(referal_url,options).then(function(ret){
-      console.log("REDIRECT TO AUTHENTICATE ON DISCORD -------------------------------");
-      console.log("redirect to:",ret.url_redirect);
+      // console.log("REDIRECT TO AUTHENTICATE ON DISCORD -------------------------------");
+      // console.log("redirect to:",ret.url_redirect);
       log_debug("argz:",argz);
       self.redirect(ret.url_redirect);
     });    

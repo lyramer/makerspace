@@ -17,19 +17,20 @@ function AuthSocial(props) {
     github: "GitHub",
   };
 
-  const onSigninWithProvider = (provider) => {
-    setPending(provider);
-    auth
-      .signinWithProvider(provider)
-      .then((user) => {
-        localStorage.setItem("lastUsedAuthProvider", provider);
-        props.onAuth(user);
-      })
-      .catch((error) => {
-        setPending(null);
-        props.onError(error.message);
-      });
-  };
+  // FIXME: Strip this I think? We aren't using login thru FB, Gmail, etc
+  // const onSigninWithProvider = (provider) => {
+  //   setPending(provider);
+  //   auth
+  //     .signinWithProvider(provider)
+  //     .then((user) => {
+  //       localStorage.setItem("lastUsedAuthProvider", provider);
+  //       props.onAuth(user);
+  //     })
+  //     .catch((error) => {
+  //       setPending(null);
+  //       props.onError(error.message);
+  //     });
+  // };
 
   // Get value of last used auth provider
   useEffect(() => {
@@ -49,7 +50,7 @@ function AuthSocial(props) {
           size="lg"
           block={true}
           onClick={() => {
-            onSigninWithProvider(provider);
+            // onSigninWithProvider(provider);
           }}
           className="position-relative"
           key={provider}

@@ -1,83 +1,75 @@
-import { promisify } from "es6-promisify";
-import Auth0 from "auth0-js";
 import { apiRequest, CustomError } from "./util.js";
+import { useQuery, queryCache } from "react-query";
 
-// Initialize Auth0
-const auth0Realm = "Username-Password-Authentication";
-const auth0 = new Auth0.WebAuth({
-  domain: process.env.REACT_APP_AUTH0_DOMAIN,
-  clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
-  audience: `https://${process.env.REACT_APP_AUTH0_DOMAIN}/api/v2/`,
-  responseType: "token id_token",
-  scope: "openid profile email",
-});
 
-// First let's create promisified versions of the Auth0 methods we need
-// so that we can use then().catch() instead of dealing with callback hell.
-// We use bind so that internally "this" still has the correct scope.
-
-const signupAndAuthorize = promisify(auth0.signupAndAuthorize.bind(auth0));
-const login = promisify(auth0.client.login.bind(auth0.client));
-const popupAuthorize = promisify(auth0.popup.authorize.bind(auth0.popup));
-const userInfo = promisify(auth0.client.userInfo.bind(auth0.client));
-const changePassword = promisify(auth0.changePassword.bind(auth0));
 
 // Now lets wrap our methods with extra logic, such as including a "connection" value
 // and ensuring human readable errors are thrown for our UI to catch and display.
-// We make these custom methods available within an auth0.extended object.
+// We make these custom methods available within an auth.extended object.
 
 let onChangeCallback = () => null;
 
-auth0.extended = {
+const discourse = {
   getCurrentUser: () => {
-    const accessToken = getAccessToken();
-    return userInfo(accessToken).catch(handleError);
+    console.log("discourse getCurrentUser")
+    return apiRequest(`auth/current-session`)
+    // .then(handleAuth)
+    .catch(handleError)
   },
 
   signupAndAuthorize: (options) => {
-    return signupAndAuthorize({
-      connection: auth0Realm,
-      ...options,
-    })
-      .then(handleAuth)
-      .catch(handleError);
+    console.log("discourse signupAndAuthorize")
+    return apiRequest(`auth/new`, options)
+      // .then(handleAuth)
+      .catch(handleError)
   },
 
-  login: (options) => {
-    return login({
-      realm: auth0Realm,
-      ...options,
-    })
-      .then(handleAuth)
+  // FIXME: Finish implementing this so it is called when requireAuth is 
+  // used (aka rendered) as a HOC wrapper.
+  cookieCheck: () => {
+    console.log("discourse cookieCheck")
+    return apiRequest(`auth/current-session`)
+     // .then(handleAuth)
       .catch(handleError);
   },
-
-  popupAuthorize: (options) => {
-    return popupAuthorize(options).then(handleAuth).catch(handleError);
+  // not passing in login uid because we are authing through
+  // cookies and backend stuff.
+  login: () => {
+    console.log("discourse login")
+    return apiRequest(`auth/current-session`)
+      //.then(handleAuth)
+      .catch(handleError);
   },
 
   // Send email so user can reset password
   changePassword: (options) => {
-    return changePassword({
-      connection: auth0Realm,
-      ...options,
-    }).catch((error) => handleError(error, true));
+    console.log("discourse changePassword")
+    // return changePassword({
+    //   // connection: auth0Realm,
+    //   ...options,
+    // })
+    return apiRequest(`auth/reset-pwd`, options)
+    .catch((error) => handleError(error, true));
   },
 
   updateEmail: (email) => {
+    console.log("discourse updateEmail")
     return apiRequest("auth-user", "PATCH", { email });
   },
 
   // Update password of authenticated user
   updatePassword: (password) => {
+    console.log("discourse updatePassword")
     return apiRequest("auth-user", "PATCH", { password });
   },
 
   updateProfile: (data) => {
+    console.log("discourse updateProfile")
     return apiRequest("auth-user", "PATCH", data);
   },
 
   logout: () => {
+    console.log("discourse logout")
     handleLogout();
   },
 
@@ -87,53 +79,64 @@ auth0.extended = {
     onChangeCallback = cb;
 
     const handleOnChange = (accessToken) => {
+      console.log("discourse handleOnChange")
       if (accessToken) {
-        userInfo(accessToken)
-          .then(onChangeCallback)
-          .catch((error) => handleError(error, true));
+        // FIXME (no access tokens..right?)
+        console.log("do something here")
+        // return apiRequest(`auth/current-session`)
+        //   .then(onChangeCallback)
+        //   .catch((error) => handleError(error, true));
       } else {
         onChangeCallback(false);
       }
     };
 
+    // FIXME: I think we're going with cookies rather than local storage?
+    // for security reasons (local storage vulnerable to XSS)
+
+    
     // Local Storage listener
     // This is ONLY called when storage is changed by another tab so we
     // must manually call onChangeCallback after any user triggered changes.
-    const listener = window.addEventListener(
-      "storage",
-      ({ key, newValue }) => {
-        if (key === TOKEN_STORAGE_KEY) {
-          handleOnChange(newValue);
-        }
-      },
-      false
-    );
+    // // const listener = window.addEventListener(
+    // //   "storage",
+    // //   ({ key, newValue }) => {
+    // //     if (key === TOKEN_STORAGE_KEY) {
+    // //       handleOnChange(newValue);
+    // //     }
+    // //   },
+    // //   false
+    // // );
 
-    // Get accessToken from storage and call handleOnChange.
-    const accessToken = getAccessToken();
-    handleOnChange(accessToken);
+    // // Get accessToken from storage and call handleOnChange.
+    // const accessToken = getAccessToken();
+    // handleOnChange(accessToken);
 
-    // Return an unsubscribe function so calling function can
-    // call unsubscribe when needed (such as when a component unmounts).
-    return () => {
-      window.removeEventListener("storage", listener);
-    };
+    // // Return an unsubscribe function so calling function can
+    // // call unsubscribe when needed (such as when a component unmounts).
+    // return () => {
+    //   window.removeEventListener("storage", listener);
+    // };
   },
 
-  getAccessToken: () => getAccessToken(),
+  // getAccessToken: () => getAccessToken(),
 };
 
+// FIXME: without access tokens I'm not sure we need this?
 // Gets passed auth response, stores accessToken, returns user data.
 const handleAuth = (response) => {
-  setAccessToken(response.accessToken);
-  return userInfo(response.accessToken).then((user) => {
-    onChangeCallback(user);
-    return user;
-  });
+  if (response) { // ie it is a real json object, not just 'false'
+    // response.accessToken = "";
+    // setAccessToken(response.accessToken);
+    // onChangeCallback(response);
+  }
+
+  return response;
 };
 
 const handleLogout = () => {
-  removeAccessToken();
+  // FIXME: need to change this to removeCookie
+  //removeAccessToken();
   onChangeCallback(false);
 };
 
@@ -162,15 +165,15 @@ const handleError = (error, autoLogout = false) => {
   } else {
     message = error.code; // Use error.code if no better option
   }
-
+  console.log("CustomError!", error)
   throw new CustomError(error.code, message);
 };
 
 // Local Storage methods
-const TOKEN_STORAGE_KEY = "auth0_access_token";
-const getAccessToken = () => localStorage.getItem(TOKEN_STORAGE_KEY);
-const setAccessToken = (accessToken) =>
-  localStorage.setItem(TOKEN_STORAGE_KEY, accessToken);
-const removeAccessToken = () => localStorage.removeItem(TOKEN_STORAGE_KEY);
+// const TOKEN_STORAGE_KEY = "auth0_access_token";
+// const getAccessToken = () => localStorage.getItem(TOKEN_STORAGE_KEY);
+// const setAccessToken = (accessToken) =>
+//   localStorage.setItem(TOKEN_STORAGE_KEY, accessToken);
+// const removeAccessToken = () => localStorage.removeItem(TOKEN_STORAGE_KEY);
 
-export default auth0;
+export default discourse;

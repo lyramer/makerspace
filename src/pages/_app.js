@@ -40,6 +40,7 @@ function App(props) {
               }}
             />
 
+            <Route exact path="/login" ><Redirect to="/dashboard" /></Route>
 
             <Route exact path="/" component={IndexPage} />
 
@@ -50,7 +51,7 @@ function App(props) {
             <Route exact path="/pricing" component={PricingPage} />
 
             <Route exact path="/contact" component={ContactPage} />
-
+            
             <Route exact path="/dashboard" component={DashboardPage} />
 
             <Route exact path="/settings/:section" component={SettingsPage} />

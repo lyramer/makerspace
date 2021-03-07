@@ -69,7 +69,7 @@ sso.prototype.valid_server_re = valid_server_re;
 
 sso.prototype.generateAuthRequest = function(return_url,opts) {
 	var thiz = this;
-	console.log("thiz", thiz.config);
+	//console.log("thiz", thiz.config);
 	//console.log("return_url", return_url)
 	return new Promise(function(resolve,reject){
 		var ret = { opts: opts };

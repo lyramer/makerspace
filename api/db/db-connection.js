@@ -80,14 +80,15 @@ async function createMemberTables() {
       emergency_phone varchar(15),
       emergency_rel varchar(100),
       balance decimal(12,4),
-      active boolean
+      active boolean,
+      external_id int,
+
     )`;
 
     const contactsTableCreateQuery = `  
       CREATE TABLE IF NOT EXISTS contact_info (
-        id SERIAL PRIMARY KEY,
+        
         forum_name varchar(100),
-        about_myself varchar(100),
         age_of_majority boolean,
         phone varchar(15),
         address varchar(100),
@@ -106,9 +107,23 @@ async function createMemberTables() {
         liab_link varchar(100),
         antibully_link varchar(100),
         total_donated decimal(12,4),
-        stripe_info varchar(100)
+        stripe_info varchar(100),
+        email2 varchar(100),
       )
     `;
+
+    const appInfoTableCreateQuery = `
+    CREATE TABLE IF NOT EXISTS applications (
+      id PRIMARY KEY,
+      about_myself varchar(100),
+      applying_for varchar(500),
+      attended_oh bool,
+      attended_oh_date date,
+      heard_about varchar(200),
+      how_intend_contribute varchar(500),
+
+      )
+    `
 
     const sponsorsTableCreateQuery = `  
       CREATE TABLE IF NOT EXISTS member_sponsors (

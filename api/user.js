@@ -1,10 +1,14 @@
 const express = require("express");
 const requireAuth = require("./_require-auth.js");
+const { getUser } = require("./_db");
 const router = express.Router();
 
 router.get("/:uid", requireAuth, (req, res) => {
+  
   const authUser = req.user;
   const { uid } = req.params;
+  
+  console.log("looking up " + uid + " called by " + authUser.name)
 
   // Prevent access to user other than yourself
   // Note: You may want to remove this depending on your needs
@@ -23,16 +27,29 @@ router.get("/:uid", requireAuth, (req, res) => {
     name: "Bob",
   };
 
-  res.send({
-    status: "success",
-    data: user,
-  });
+  getUser(uid).then(userData => {
+    console.log("userData", userData)
+    res.send({
+      status: "success",
+      data: userData,
+    });
+  }).catch(err => {
+    console.log("error while fetching userData", err)
+    res.send({
+      status: "error",
+      data: err,
+    });
+  })
+
+
+
 });
 
 router.patch("/:uid", requireAuth, (req, res) => {
   const authUser = req.user;
   const body = req.body;
   const { uid } = req.params;
+
 
   // Make sure authenticated user can only update themself
   if (uid !== authUser.uid) {

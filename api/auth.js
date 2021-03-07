@@ -10,7 +10,6 @@ const router = express.Router();
 
 // FIXME garbage toy routes
 router.get("/wow", (req, res) => {
-    console.log("wooooow")
     res.send("<a href='/auth/login'>Login</a>");
 })
 
@@ -33,10 +32,10 @@ router.get('/discourse_sso/callback', (req, res, next) => {
         }
         
         req.session.jwt = jwt.sign(profile, process.env.JWT_SECRET_KEY);
-        console.log(req.session)
-        console.log("User logged in:", profile)
 
-        return res.redirect(process.env.PROXY_URL + "/dashboard");
+        //console.log("User logged in:", profile)
+
+        return res.redirect(`${process.env.PROXY_URL}/dashboard`);
     })(req, res, next);
 });
 
@@ -94,9 +93,11 @@ router.get('/private-route', jwtRequired, (req, res) => {
 router.get('/current-session', (req, res) => {
     passport.authenticate('jwt', { session: false }, (err, user) => {
         if (err || !user) {
+            console.log("NO USER FOUND")
             res.send(false);
         } else {
-            res.send(user);
+            console.log("Yay found a user: ", user.username)
+            res.send({uid: user.external_id, ...user});
         }
     })(req, res);
 });

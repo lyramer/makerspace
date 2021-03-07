@@ -7,6 +7,4 @@ dotenv.config();
 const databaseConfig = { connectionString: process.env.DB_URL };
 const pool = new Pool(databaseConfig);
 
-module.exports = {
-    pool
-  };
+module.exports = pool;

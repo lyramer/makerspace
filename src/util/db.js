@@ -6,6 +6,7 @@ import { apiRequest } from "./util";
 // Fetch user data (hook)
 // This is called automatically by auth.js and merged into auth.user
 export function useUser(uid) {
+  console.log("useUser: " + uid)
   // Unique cache key for this query
   const cacheKey = ["user", { uid }];
   // Query for fetching user
@@ -31,6 +32,8 @@ export function updateUser(uid, data) {
 export function createUser(uid, data) {
   return apiRequest("user", "POST", { uid, ...data });
 }
+
+
 
 /**** ITEMS ****/
 /* Example query functions (modify to your needs) */
